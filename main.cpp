@@ -3,7 +3,7 @@
 #include "raylib.h"
 #include <cmath>
 #include <vector>
-#include <algorithm>
+
 bool pause(){
     static bool pause_state=false;
 if(IsKeyPressed(KEY_SPACE)){
