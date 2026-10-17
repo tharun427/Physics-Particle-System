@@ -4,6 +4,17 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
+bool pause(){
+    static bool pause_state=false;
+if(IsKeyPressed(KEY_SPACE)){
+    if(pause_state==false){
+        pause_state=true;
+    }
+    else{
+        pause_state=false;
+    }}
+   return pause_state;
+}
 void collision_between_particles(particle& p1, particle& p2,float restitution){
     float ratio1=p2.mass/(p1.mass+p2.mass);
     float ratio2=p1.mass/(p1.mass+p2.mass);
@@ -117,11 +128,12 @@ float restitution=0.8f;
   while(!WindowShouldClose()){
     float dt=GetFrameTime();
     add_particle(particles,dt);
+    if(!pause()){
     for(auto& p:particles){
         apply_gravity(p,gravity,dt);
         apply_collision_with_boundary(p, screen_width, screen_height, restitution, minimum_velocity);
         apply_friction(p,friction_coefficient);
-    }
+    }}
     for(size_t i=0;i<particles.size();i++){
         for(size_t j=i+1;j<particles.size();j++){
             collision_between_particles(particles[i],particles[j],restitution);
@@ -129,7 +141,7 @@ float restitution=0.8f;
     }
    // Render
     BeginDrawing();
-    ClearBackground(RAYWHITE);
+    ClearBackground(BLACK);
 
     DrawFPS(10,10);
     for(auto& p:particles){
